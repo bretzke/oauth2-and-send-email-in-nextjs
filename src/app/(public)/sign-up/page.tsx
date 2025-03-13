@@ -14,8 +14,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
 
-export default function Login() {
+export default function SignUp() {
 	const formSchema = z.object({
+		name: z.string().min(1, "Full name is required"),
 		email: z
 			.string()
 			.email("Enter a valid email")
@@ -29,10 +30,13 @@ export default function Login() {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
+			name: "",
 			email: "",
 			password: "",
 		},
 	});
+
+	async function handleSignIn() {}
 
 	async function handleSubmitForm(formValues: z.infer<typeof formSchema>) {
 		console.log(formValues);
@@ -40,10 +44,10 @@ export default function Login() {
 
 	return (
 		<section className="flex flex-col gap-4 w-[304px] border rounded-sm p-4">
-			<h1 className="text-2xl font-bold">Login</h1>
+			<h1 className="text-2xl font-bold">Sign Up</h1>
 			<hr />
 			<div>
-				<Button>Google</Button>
+				<Button onClick={handleSignIn}>Google</Button>
 			</div>
 			<hr />
 			<Form {...form}>
@@ -51,6 +55,19 @@ export default function Login() {
 					onSubmit={form.handleSubmit(handleSubmitForm)}
 					className="flex flex-col gap-4"
 				>
+					<FormField
+						control={form.control}
+						name="name"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Full name</FormLabel>
+								<FormControl>
+									<Input {...field} placeholder="Enter your full name" />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 					<FormField
 						control={form.control}
 						name="email"
@@ -73,7 +90,7 @@ export default function Login() {
 								<FormControl>
 									<Input
 										{...field}
-										placeholder="Enter your password"
+										placeholder="enter your password"
 										type="password"
 									/>
 								</FormControl>
@@ -82,7 +99,7 @@ export default function Login() {
 						)}
 					/>
 					<Button type="submit" disabled={false}>
-						Sign in
+						Sign Up
 					</Button>
 				</form>
 			</Form>

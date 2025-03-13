@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
 	return (
-		<main className="flex flex-col grow items-center justify-center gap-4 p-4">
+		<>
 			<h1 className="text-xl font-bold">OAuth2 and send e-mail in Next.js</h1>
 			<p className="italic">
 				This example project demonstrates the implementation of OAuth2 for
@@ -14,10 +14,10 @@ export default function Home() {
 				<Link href="/login">
 					<Button>Login</Button>
 				</Link>
-				<Link href="/register">
-					<Button>Register</Button>
+				<Link href="/sign-up">
+					<Button>Sign Up</Button>
 				</Link>
 			</div>
-		</main>
+		</>
 	);
 }
