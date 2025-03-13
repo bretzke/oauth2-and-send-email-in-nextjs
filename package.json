@@ -38,7 +38,5 @@
 		"tsx": "^4.19.3",
 		"typescript": "^5"
 	},
-	"workspaces": [
-		"src/lib/*"
-	]
+	"workspaces": ["src/lib/react-email/*"]
 }
