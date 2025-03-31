@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
 import { registerNewUser } from "@/app/actions/register-new-user";
+import { signIn } from "next-auth/react";
 
 export default function SignUp() {
 	const formSchema = z.object({
@@ -37,12 +38,12 @@ export default function SignUp() {
 		},
 	});
 
-	async function handleSignIn() {}
+	async function handleSignIn() {
+		await signIn("google", { callbackUrl: "/app" });
+	}
 
 	async function handleSubmitForm(formValues: z.infer<typeof formSchema>) {
 		await registerNewUser(formValues);
-
-		// handle the response to the server action
 	}
 
 	return (

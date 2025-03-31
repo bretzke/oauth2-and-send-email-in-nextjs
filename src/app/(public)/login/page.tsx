@@ -13,6 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
 	const formSchema = z.object({
@@ -34,8 +36,28 @@ export default function Login() {
 		},
 	});
 
+	const router = useRouter();
+
 	async function handleSubmitForm(formValues: z.infer<typeof formSchema>) {
-		console.log(formValues);
+		try {
+			const response = await signIn("credentials", {
+				email: formValues.email,
+				password: formValues.password,
+				redirect: false,
+			});
+
+			if (!response?.ok) {
+				throw new Error(response?.error as string);
+			}
+
+			router.push("/app");
+		} catch {
+			alert("Invalid credentials!");
+		}
+	}
+
+	async function loginWithGoogle() {
+		await signIn("google", { callbackUrl: "/app" });
 	}
 
 	return (
@@ -43,7 +65,7 @@ export default function Login() {
 			<h1 className="text-2xl font-bold">Login</h1>
 			<hr />
 			<div>
-				<Button>Google</Button>
+				<Button onClick={loginWithGoogle}>Google</Button>
 			</div>
 			<hr />
 			<Form {...form}>
